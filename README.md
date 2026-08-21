@@ -458,6 +458,25 @@ STACK       : MERN + LiveKit + AI
 FIRST GOAL  : Multi-user SFU video room
 NEXT STEP   : Build React + Express + LiveKit
 
+BYOK NOTE   : User brings their own keys (LiveKit/STT/LLM/Email/Calendar).
+              MeetMind never owns provider accounts. .env holds platform
+              infra only — NO provider API keys (see PROJECT.md, Part 4).
+
+IMPLEMENTED (foundation)
+- Monorepo (npm workspaces): client/, server/
+- Server: Express + TypeScript + Mongoose, /api/health
+- Auth skeleton: User model, register/login/refresh/logout/me (access + refresh JWT)
+- crypto.ts: AES-256-GCM (ENCRYPTION_KEY) for per-user Integration secrets
+- .env restricted to platform infra only — no provider keys
+
+NOT YET BUILT
+- Integration model + resolver (Phase 2)
+- Rooms / Booking / LiveKit video (Phase 3-5)
+- STT, AI report, Calendar (Phase 6-8)
+
+NEXT STEP   : Provide infra secrets (MongoDB URI) → confirm Phase 0, then Phase 1 auth UI
+
+
 💡 Long-Term Idea
 
 Eventually MeetMind should become:
