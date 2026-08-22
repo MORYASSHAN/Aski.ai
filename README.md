@@ -4,7 +4,7 @@ AI-powered video conferencing built to learn WebRTC, SFU architecture, realtime 
 
 <p align="center">
 
-React + Node + Express + MongoDB + LiveKit + AI
+React + Node + Express + MongoDB + LiveKit + AI + API 
 
 </p>
 
