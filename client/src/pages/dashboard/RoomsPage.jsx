@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { roomsApi } from "../../services/api.js";
 import { Panel, EmptyState, Spinner, fmtDate } from "../../components/dashboard/ui.jsx";
+import AnimatedBorder from "../../components/animation/AnimatedBorder.jsx";
+import TiltCard from "../../components/animation/TiltCard.jsx";
 
 export default function RoomsPage() {
   const [rooms, setRooms] = useState([]);
@@ -154,32 +156,36 @@ export default function RoomsPage() {
       ) : (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {rooms.map((room) => (
-            <div key={room._id} className="card-border lift rounded-2xl p-6">
-              <div className="flex items-start justify-between">
-                <h3 className="font-display text-xl font-semibold">{room.name}</h3>
-                <button
-                  onClick={() => onDelete(room._id)}
-                  className="text-xs text-mute hover:text-red-300"
-                >
-                  Delete
-                </button>
-              </div>
-              <p className="mt-2 text-sm text-fog">{room.description || "No description"}</p>
-              <div className="mt-4 flex flex-wrap gap-2 text-xs">
-                <span className="rounded-full bg-white/10 px-3 py-1 text-fog">
-                  {room.settings?.maxParticipants ?? 50} seats
-                </span>
-                {room.settings?.aiEnabled && (
-                  <span className="rounded-full bg-accent/15 px-3 py-1 text-accent">AI</span>
-                )}
-                {room.settings?.recordingEnabled && (
-                  <span className="rounded-full bg-white/10 px-3 py-1 text-fog">Rec</span>
-                )}
-              </div>
-              <p className="mt-4 text-xs text-mute">
-                /{room.slug} · {fmtDate(room.createdAt)}
-              </p>
-            </div>
+            <TiltCard key={room._id} className="h-full" intensity={6}>
+              <AnimatedBorder speed={8}>
+                <div className="relative h-full rounded-2xl bg-noir/80 p-6 backdrop-blur-sm">
+                  <div className="flex items-start justify-between">
+                    <h3 className="font-display text-xl font-semibold">{room.name}</h3>
+                    <button
+                      onClick={() => onDelete(room._id)}
+                      className="text-xs text-mute hover:text-red-300"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                  <p className="mt-2 text-sm text-fog">{room.description || "No description"}</p>
+                  <div className="mt-4 flex flex-wrap gap-2 text-xs">
+                    <span className="rounded-full bg-white/10 px-3 py-1 text-fog">
+                      {room.settings?.maxParticipants ?? 50} seats
+                    </span>
+                    {room.settings?.aiEnabled && (
+                      <span className="rounded-full bg-accent/15 px-3 py-1 text-accent">AI</span>
+                    )}
+                    {room.settings?.recordingEnabled && (
+                      <span className="rounded-full bg-white/10 px-3 py-1 text-fog">Rec</span>
+                    )}
+                  </div>
+                  <p className="mt-4 text-xs text-mute">
+                    /{room.slug} · {fmtDate(room.createdAt)}
+                  </p>
+                </div>
+              </AnimatedBorder>
+            </TiltCard>
           ))}
         </div>
       )}

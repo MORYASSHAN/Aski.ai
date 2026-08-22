@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../../store/authStore.js";
+import Magnetic from "../animation/Magnetic.jsx";
 
 const NAV = [
-  { label: "Product", href: "/#product" },
+  { label: "Product", href: "/#story" },
   { label: "Features", href: "/#features" },
   { label: "Integrations", href: "/#integrations" },
   { label: "Pricing", href: "/#pricing" },
@@ -28,37 +29,43 @@ export default function Navbar() {
       <motion.header
         initial={{ y: -40, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className={`fixed inset-x-0 top-0 z-50 transition-colors duration-500 ${
-          scrolled ? "border-b border-white/10 bg-ink/70 backdrop-blur-xl" : "bg-transparent"
+        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+        className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
+          scrolled
+            ? "border-b border-white/10 bg-ink/80 backdrop-blur-2xl"
+            : "bg-transparent"
         }`}
       >
-        <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-10">
-          <Link to="/" className="font-display text-xl font-bold tracking-tight">
-            Aski<span className="text-accent">.ai</span>
+        <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 lg:px-10">
+          <Link to="/" className="font-display text-xl font-bold tracking-tight text-white">
+            Aski<span className="text-white/50">.ai</span>
           </Link>
 
-          <div className="hidden items-center gap-9 md:flex">
+          <div className="hidden items-center gap-10 md:flex">
             {NAV.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                className="text-sm text-fog transition-colors hover:text-bone"
-              >
-                {item.label}
-              </a>
+              <Magnetic key={item.href} strength={0.2}>
+                <a
+                  href={item.href}
+                  className="relative text-sm text-fog transition-colors hover:text-white"
+                >
+                  {item.label}
+                  <span className="absolute -bottom-1 left-0 h-px w-0 bg-white transition-all duration-300 group-hover:w-full" />
+                </a>
+              </Magnetic>
             ))}
           </div>
 
           <div className="hidden items-center gap-3 md:flex">
             {user ? (
               <>
-                <button
-                  onClick={() => navigate("/dashboard")}
-                  className="btn-ghost px-5 py-2 text-sm"
-                >
-                  Dashboard
-                </button>
+                <Magnetic>
+                  <button
+                    onClick={() => navigate("/dashboard")}
+                    className="btn-ghost px-5 py-2 text-sm"
+                  >
+                    Dashboard
+                  </button>
+                </Magnetic>
                 <button
                   onClick={() => {
                     logout();
@@ -74,9 +81,11 @@ export default function Navbar() {
                 <Link to="/login" className="text-sm text-fog transition-colors hover:text-bone">
                   Log in
                 </Link>
-                <Link to="/register" className="btn-primary px-5 py-2 text-sm">
-                  Get started
-                </Link>
+                <Magnetic>
+                  <Link to="/register" className="btn-primary px-5 py-2 text-sm">
+                    Get started
+                  </Link>
+                </Magnetic>
               </>
             )}
           </div>
@@ -87,8 +96,9 @@ export default function Navbar() {
             aria-label="Menu"
           >
             <div className="space-y-1.5">
-              <span className="block h-0.5 w-6 bg-bone" />
-              <span className="block h-0.5 w-6 bg-bone" />
+              <span className={`block h-0.5 w-6 bg-bone transition-all duration-300 ${open ? "translate-y-2 rotate-45" : ""}`} />
+              <span className={`block h-0.5 w-6 bg-bone transition-all duration-300 ${open ? "opacity-0" : ""}`} />
+              <span className={`block h-0.5 w-6 bg-bone transition-all duration-300 ${open ? "-translate-y-2 -rotate-45" : ""}`} />
             </div>
           </button>
         </nav>
@@ -100,20 +110,21 @@ export default function Navbar() {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="fixed inset-x-0 top-[64px] z-40 border-b border-white/10 bg-ink/95 px-6 py-6 backdrop-blur-xl md:hidden"
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed inset-x-0 top-[64px] z-40 border-b border-white/10 bg-ink/95 px-6 py-8 backdrop-blur-2xl md:hidden"
           >
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-6">
               {NAV.map((item) => (
                 <a
                   key={item.href}
                   href={item.href}
                   onClick={() => setOpen(false)}
-                  className="text-lg text-bone"
+                  className="text-lg text-bone transition-colors hover:text-white"
                 >
                   {item.label}
                 </a>
               ))}
-              <div className="mt-2 h-px bg-white/10" />
+              <div className="h-px bg-white/10" />
               {user ? (
                 <>
                   <Link to="/dashboard" className="btn-primary" onClick={() => setOpen(false)}>

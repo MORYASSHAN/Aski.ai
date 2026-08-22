@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { meetingsApi } from "../../services/api.js";
 import { Panel, EmptyState, Spinner, fmtDate } from "../../components/dashboard/ui.jsx";
+import AnimatedBorder from "../../components/animation/AnimatedBorder.jsx";
+import TiltCard from "../../components/animation/TiltCard.jsx";
 
 export default function MeetingsPage() {
   const [meetings, setMeetings] = useState([]);
@@ -84,40 +86,44 @@ export default function MeetingsPage() {
       ) : (
         <div className="space-y-3">
           {meetings.map((m) => (
-            <div key={m._id} className="card-border flex items-center justify-between rounded-2xl p-5">
-              <div className="flex items-center gap-4">
-                <span
-                  className={`h-2.5 w-2.5 rounded-full ${
-                    m.endedAt ? "bg-white/20" : "animate-pulse bg-green-400"
-                  }`}
-                />
-                <div>
-                  <p className="font-medium text-bone">{m.roomId?.name || "Meeting"}</p>
-                  <p className="text-xs text-mute">{fmtDate(m.createdAt)}</p>
+            <TiltCard key={m._id} intensity={4}>
+              <AnimatedBorder speed={10}>
+                <div className="relative flex items-center justify-between rounded-2xl bg-noir/80 p-5 backdrop-blur-sm">
+                  <div className="flex items-center gap-4">
+                    <span
+                      className={`h-2.5 w-2.5 rounded-full ${
+                        m.endedAt ? "bg-white/20" : "animate-pulse bg-green-400"
+                      }`}
+                    />
+                    <div>
+                      <p className="font-medium text-bone">{m.roomId?.name || "Meeting"}</p>
+                      <p className="text-xs text-mute">{fmtDate(m.createdAt)}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    {!m.startedAt && (
+                      <button
+                        onClick={() => toggle(m, "start")}
+                        className="rounded-xl bg-white/10 px-4 py-2 text-sm hover:bg-white/20"
+                      >
+                        Start
+                      </button>
+                    )}
+                    {m.startedAt && !m.endedAt && (
+                      <button
+                        onClick={() => toggle(m, "end")}
+                        className="rounded-xl bg-red-500/20 px-4 py-2 text-sm text-red-200 hover:bg-red-500/30"
+                      >
+                        End
+                      </button>
+                    )}
+                    {m.endedAt && (
+                      <span className="text-xs text-mute">Ended {fmtDate(m.endedAt)}</span>
+                    )}
+                  </div>
                 </div>
-              </div>
-              <div className="flex items-center gap-2">
-                {!m.startedAt && (
-                  <button
-                    onClick={() => toggle(m, "start")}
-                    className="rounded-xl bg-white/10 px-4 py-2 text-sm hover:bg-white/20"
-                  >
-                    Start
-                  </button>
-                )}
-                {m.startedAt && !m.endedAt && (
-                  <button
-                    onClick={() => toggle(m, "end")}
-                    className="rounded-xl bg-red-500/20 px-4 py-2 text-sm text-red-200 hover:bg-red-500/30"
-                  >
-                    End
-                  </button>
-                )}
-                {m.endedAt && (
-                  <span className="text-xs text-mute">Ended {fmtDate(m.endedAt)}</span>
-                )}
-              </div>
-            </div>
+              </AnimatedBorder>
+            </TiltCard>
           ))}
         </div>
       )}

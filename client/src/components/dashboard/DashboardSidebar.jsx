@@ -1,5 +1,6 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../store/authStore.js";
+import { motion } from "framer-motion";
 
 const NAV = [
   { to: "/dashboard", label: "Overview", end: true },
@@ -22,15 +23,15 @@ export default function DashboardSidebar() {
       </div>
 
       <nav className="mt-10 flex flex-1 flex-col gap-1">
-        {NAV.map((item) => (
+        {NAV.map((item, idx) => (
           <NavLink
             key={item.to}
             to={item.to}
             end={item.end}
             className={({ isActive }) =>
-              `rounded-xl px-4 py-3 text-sm transition-colors ${
+              `motion-safe rounded-xl px-4 py-3 text-sm transition-all duration-300 ${
                 isActive
-                  ? "bg-white/10 text-bone"
+                  ? "bg-white/10 text-bone shadow-lg shadow-accent/10"
                   : "text-fog hover:bg-white/5 hover:text-bone"
               }`
             }
@@ -41,16 +42,21 @@ export default function DashboardSidebar() {
       </nav>
 
       <div className="border-t border-white/10 pt-4">
-        <div className="px-2 text-sm text-bone">
-          {user?.name || "Member"}
-        </div>
-        <div className="px-2 text-xs text-mute">{user?.email}</div>
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3, duration: 0.5 }}
+          className="px-2"
+        >
+          <div className="text-sm text-bone">{user?.name || "Member"}</div>
+          <div className="text-xs text-mute">{user?.email}</div>
+        </motion.div>
         <button
           onClick={() => {
             logout();
             navigate("/");
           }}
-          className="mt-4 w-full rounded-xl border border-white/10 px-4 py-2 text-sm text-fog transition-colors hover:border-white/30 hover:text-bone"
+          className="mt-4 w-full rounded-xl border border-white/10 px-4 py-2 text-sm text-fog transition-all duration-300 hover:border-white/30 hover:text-bone hover:bg-white/5"
         >
           Log out
         </button>

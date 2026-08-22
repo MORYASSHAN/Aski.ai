@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { integrationsApi } from "../../services/api.js";
 import { Panel, EmptyState, Spinner } from "../../components/dashboard/ui.jsx";
+import AnimatedBorder from "../../components/animation/AnimatedBorder.jsx";
+import TiltCard from "../../components/animation/TiltCard.jsx";
 
 const CATEGORIES = [
   { value: "livekit", label: "LiveKit" },
@@ -157,31 +159,35 @@ export default function IntegrationsPage() {
       ) : (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {items.map((it) => (
-            <div key={it._id} className="card-border rounded-2xl p-6">
-              <div className="flex items-start justify-between">
-                <div>
-                  <h3 className="font-display text-lg font-semibold">{it.provider}</h3>
-                  <p className="text-xs uppercase tracking-widest text-mute">{it.category}</p>
+            <TiltCard key={it._id} intensity={6}>
+              <AnimatedBorder speed={8}>
+                <div className="relative rounded-2xl bg-noir/80 p-6 backdrop-blur-sm">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <h3 className="font-display text-lg font-semibold">{it.provider}</h3>
+                      <p className="text-xs uppercase tracking-widest text-mute">{it.category}</p>
+                    </div>
+                    <span className={`rounded-full px-3 py-1 text-xs ${STATUS_STYLES[it.status] || "bg-white/10 text-fog"}`}>
+                      {it.status}
+                    </span>
+                  </div>
+                  <div className="mt-4 flex gap-3">
+                    <button
+                      onClick={() => onValidate(it._id)}
+                      className="rounded-xl bg-white/10 px-4 py-2 text-sm hover:bg-white/20"
+                    >
+                      Validate
+                    </button>
+                    <button
+                      onClick={() => onRemove(it._id)}
+                      className="text-xs text-mute hover:text-red-300"
+                    >
+                      Remove
+                    </button>
+                  </div>
                 </div>
-                <span className={`rounded-full px-3 py-1 text-xs ${STATUS_STYLES[it.status] || "bg-white/10 text-fog"}`}>
-                  {it.status}
-                </span>
-              </div>
-              <div className="mt-4 flex gap-3">
-                <button
-                  onClick={() => onValidate(it._id)}
-                  className="rounded-xl bg-white/10 px-4 py-2 text-sm hover:bg-white/20"
-                >
-                  Validate
-                </button>
-                <button
-                  onClick={() => onRemove(it._id)}
-                  className="text-xs text-mute hover:text-red-300"
-                >
-                  Remove
-                </button>
-              </div>
-            </div>
+              </AnimatedBorder>
+            </TiltCard>
           ))}
         </div>
       )}

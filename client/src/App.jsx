@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Landing from "./pages/Landing.jsx";
+import FeaturesPage from "./pages/FeaturesPage.jsx";
 import Login from "./pages/auth/Login.jsx";
 import Register from "./pages/auth/Register.jsx";
 import ProtectedRoute from "./components/auth/ProtectedRoute.jsx";
@@ -15,6 +16,7 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Landing />} />
+        <Route path="/features" element={<FeaturesPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 

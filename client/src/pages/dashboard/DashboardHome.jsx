@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { roomsApi, meetingsApi, bookingsApi } from "../../services/api.js";
 import { StatCard, Panel, EmptyState, Spinner, fmtDate } from "../../components/dashboard/ui.jsx";
+import GlowOrb from "../../components/animation/GlowOrb.jsx";
 
 export default function DashboardHome() {
   const [loading, setLoading] = useState(true);
@@ -40,7 +41,8 @@ export default function DashboardHome() {
   if (loading) return <Spinner />;
 
   return (
-    <div>
+    <div className="relative">
+      <GlowOrb className="left-10 top-10 opacity-20" size={350} color="accent" speed={20} />
       <header className="mb-10">
         <p className="text-sm uppercase tracking-[0.3em] text-mute">Overview</p>
         <h1 className="mt-2 font-display text-4xl font-bold">Your workspace</h1>

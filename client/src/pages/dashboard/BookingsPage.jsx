@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { bookingsApi } from "../../services/api.js";
 import { Panel, EmptyState, Spinner, fmtDate } from "../../components/dashboard/ui.jsx";
+import AnimatedBorder from "../../components/animation/AnimatedBorder.jsx";
+import TiltCard from "../../components/animation/TiltCard.jsx";
 
 const STATUS_STYLES = {
   confirmed: "bg-green-500/15 text-green-300",
@@ -59,28 +61,32 @@ export default function BookingsPage() {
       ) : (
         <div className="space-y-3">
           {bookings.map((b) => (
-            <div key={b._id} className="card-border flex items-center justify-between rounded-2xl p-5">
-              <div>
-                <p className="font-medium text-bone">{b.bookerName}</p>
-                <p className="text-xs text-mute">
-                  {b.eventTypeId?.title || "Event"} · {b.bookerEmail}
-                </p>
-              </div>
-              <div className="flex items-center gap-3">
-                <span className="text-sm text-fog">{fmtDate(b.startTime)}</span>
-                <span className={`rounded-full px-3 py-1 text-xs ${STATUS_STYLES[b.status] || "bg-white/10 text-fog"}`}>
-                  {b.status}
-                </span>
-                {b.status === "confirmed" && (
-                  <button
-                    onClick={() => onCancel(b._id)}
-                    className="text-xs text-mute hover:text-red-300"
-                  >
-                    Cancel
-                  </button>
-                )}
-              </div>
-            </div>
+            <TiltCard key={b._id} intensity={4}>
+              <AnimatedBorder speed={10}>
+                <div className="relative flex items-center justify-between rounded-2xl bg-noir/80 p-5 backdrop-blur-sm">
+                  <div>
+                    <p className="font-medium text-bone">{b.bookerName}</p>
+                    <p className="text-xs text-mute">
+                      {b.eventTypeId?.title || "Event"} · {b.bookerEmail}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="text-sm text-fog">{fmtDate(b.startTime)}</span>
+                    <span className={`rounded-full px-3 py-1 text-xs ${STATUS_STYLES[b.status] || "bg-white/10 text-fog"}`}>
+                      {b.status}
+                    </span>
+                    {b.status === "confirmed" && (
+                      <button
+                        onClick={() => onCancel(b._id)}
+                        className="text-xs text-mute hover:text-red-300"
+                      >
+                        Cancel
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </AnimatedBorder>
+            </TiltCard>
           ))}
         </div>
       )}

@@ -6,6 +6,8 @@ export const IMG = {
     "https://cdn.prod.website-files.com/6a2679b9acc91890e34df140/6a326503e5f41201f44372f6_work-haptify-cover.jpg",
   // Cinematic product loop (provided reference)
   video: "https://pub-8ca9b5847fbb4d4fb97b3497fb9521d5.r2.dev/video_OPTIM/100.mp4",
+  // Dim "goo" background video (provided iStock reference)
+  goo: "https://media.istockphoto.com/id/1458453396/video/businesswoman-discussing-during-online-meeting.mp4?s=mp4-640x640-is&k=20&c=mrlsdshP3PEHUuD01efcqUwgmnVWaA8nIiz3mgFZcnA=",
 };
 
 // ----- The story: each feature is a chapter in a narrative -----
