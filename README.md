@@ -1,6 +1,6 @@
 ⚡ Aski.ai
 
-AI powered video conferencing built to learn WebRTC, SFU architecture, realtime systems, and AI agents.
+AI powered video conferencing built to learn WebRTC, SFU architecture, realtime systems and AI agents.
 
 <p align="center">
 
